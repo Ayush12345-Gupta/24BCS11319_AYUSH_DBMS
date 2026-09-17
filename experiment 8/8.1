@@ -1,0 +1,42 @@
+CREATE TABLE employee (
+    EMP_ID INT PRIMARY KEY,
+    EMP_NAME VARCHAR(100),
+    SALARY NUMERIC(10,2),
+    DEPT_NAME VARCHAR(100)
+);
+
+CREATE OR REPLACE PROCEDURE Insert_Employee(
+    EMP_ID INT,
+	EMP_NAME VARCHAR(100),
+	SALARY NUMERIC(10,2),
+	DEPARTMENT_NAME VARCHAR(100)
+
+)
+
+LANGUAGE plpgsql
+AS $$
+ BEGIN 
+      IF EMP_ID%2=0  THEN
+	     RAISE EXCEPTION
+		  'P_ID is not allowed. Only odd EMP_ID is allowed.';
+
+    ELSE 
+	   INSERT INTO employee VALUES(
+	     EMP_ID,
+		 EMP_NAME,
+		 SALARY,
+		 DEPARTMENT_NAME
+
+	   );
+	   RAISE NOTICE 'EMPLOYEE INSERTED SUCCESSFULLY';
+
+	   END IF;
+
+	   END;
+	   $$;
+	   CALL Insert_Employee(101,'Ayush',50000,'HR');
+	   CALL Insert_Employee(103,'Saurabh',45000,'PM');
+	   CALL Insert_Employee(102,'Aman',56000,'CM');
+
+	   SELECT*FROM employee;
+	
